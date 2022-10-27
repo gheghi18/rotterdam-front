@@ -1,4 +1,4 @@
 import { writable } from 'svelte/store';
-import { FIELDS } from "./fields.js";
+import FIELDS from "./features.json";
 
-export const userFields = writable(FIELDS.map(f => f.def));
+export const userFields = writable(FIELDS.map(f => f.default_value));
