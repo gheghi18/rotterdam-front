@@ -3,8 +3,8 @@
   import Field from "./Field.svelte";
   import { userFields } from "./stores.js";
 
-  // const URL = "https://rotterdam-model.fly.dev/";
-  const URL = "http://localhost:8080/";
+  const URL = "https://rotterdam-model.fly.dev/";
+  // const URL = "http://localhost:8080/";
   const AUTH = "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
 
   let score = 0;
