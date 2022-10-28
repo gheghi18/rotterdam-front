@@ -15,14 +15,30 @@
     importance: (a, b) => b.feature_importance - a.feature_importance,
   };
 
+  const archetypes = [
+    { name: "Migrant Man", main_fields: [10, 20, 30], hidden_fields: [] },
+    { name: "Young Woman", main_fields: [11, 21, 31], hidden_fields: [] },
+    { name: "Single Mom", main_fields: [12, 22, 33], hidden_fields: [] },
+  ];
+
   let score = 0;
   let loading = false;
   let sort = "alphabetical";
+  let show = "all";
 
   let sortedFields = FIELDS.sort(sorters[sort]);
 
   function onSort() {
     sortedFields = sortedFields.sort(sorters[sort]);
+  }
+
+  function onFilter() {
+    if (show == "all") {
+      sortedFields = FIELDS.sort(sorters[sort]);
+    } else {
+      sortedFields = FIELDS.filter((f) => f.feature_importance > 10);
+      onSort();
+    }
   }
 
   async function onSubmit(e) {
@@ -61,6 +77,11 @@
         <option value="alphabetical">Sort alphabetically</option>
         <option value="importance">Sort by importance</option>
       </select>
+
+      <select bind:value={show} on:change={onFilter}>
+        <option value="all">Show all fields</option>
+        <option value="important">Show most important fields</option>
+      </select>
     </header>
 
     <div class="fields">
@@ -77,12 +98,13 @@
     width: 250px;
   }
 
-  .check-score {
-    margin-bottom: 30px;
+  header select {
+    width: 100%;
+    margin-bottom: 10px;
   }
 
-  select {
-    width: 100%;
+  .check-score {
+    margin-bottom: 30px;
   }
 
   .fields {
