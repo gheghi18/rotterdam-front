@@ -14,20 +14,14 @@
     category,
     index;
 
-  let val = default_value;
-
-  function updateStore() {
-    $userFields[index] = parseFloat(val);
-  }
 </script>
 
-<div class="field">
+<div class="field" id={"field-" + index}>
   <input
     name={feature_dutch_underscore}
     type="number"
     step="0.01"
-    bind:value={val}
-    on:change={updateStore}
+    bind:value={$userFields[index]}
   />
   <label for={feature_dutch_underscore}>
     <div class="title">{feature_english_auto_translate}</div>

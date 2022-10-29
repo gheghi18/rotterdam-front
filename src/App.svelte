@@ -3,6 +3,42 @@
   import Field from "./Field.svelte";
   import { userFields } from "./stores.js";
 
+  function onSort() {
+    sortedFields = sortedFields.sort(sorters[sort]);
+  }
+
+  function onFilter() {
+    if (show == "all") {
+      sortedFields = FIELDS.sort(sorters[sort]);
+    } else {
+      sortedFields = FIELDS.filter((f) => f.feature_importance > 10);
+      onSort();
+    }
+  }
+
+  function onRandomize() {
+    userFields.set(FIELDS.map((f) => parseInt(Math.random() * 100)));
+  }
+
+  function onResetValues() {
+    userFields.set(FIELDS.map((f) => f.default_value));
+  }
+
+  async function onSubmit(e) {
+    loading = true;
+    let data = { auth: AUTH, d: [$userFields] };
+    let response = await fetch(URL, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    let results = await response.json();
+    score = results[0]["Ja"];
+    loading = false;
+  }
+
   const URL = "https://rotterdam-model.fly.dev/";
   // const URL = "http://localhost:8080/";
   const AUTH = "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
@@ -26,36 +62,9 @@
   let sort = "alphabetical";
   let show = "all";
 
+
   let sortedFields = FIELDS.sort(sorters[sort]);
-
-  function onSort() {
-    sortedFields = sortedFields.sort(sorters[sort]);
-  }
-
-  function onFilter() {
-    if (show == "all") {
-      sortedFields = FIELDS.sort(sorters[sort]);
-    } else {
-      sortedFields = FIELDS.filter((f) => f.feature_importance > 10);
-      onSort();
-    }
-  }
-
-  async function onSubmit(e) {
-    loading = true;
-    let data = { auth: AUTH, d: [$userFields] };
-    console.log(data);
-    let response = await fetch(URL, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let results = await response.json();
-    score = results[0]["Ja"];
-    loading = false;
-  }
+  onResetValues();
 </script>
 
 <main>
@@ -82,6 +91,13 @@
         <option value="all">Show all fields</option>
         <option value="important">Show most important fields</option>
       </select>
+
+      <p>
+        <button on:click|preventDefault={onResetValues}>Reset to average values</button>
+      </p>
+      <p>
+        <button on:click|preventDefault={onRandomize}>Randomize values</button>
+      </p>
     </header>
 
     <div class="fields">
