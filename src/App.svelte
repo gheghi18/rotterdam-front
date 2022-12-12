@@ -39,9 +39,9 @@
     loading = false;
   }
 
-  const URL = "https://rotterdam-model.fly.dev/";
-  // const URL = "http://localhost:8080/";
-  const AUTH = "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
+  const dev = false;
+  const URL = dev ? "http://localhost:8080/" : "https://rotterdam-model.fly.dev/";
+  const AUTH = dev ? "" : "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
 
   const sorters = {
     alphabetical: (a, b) =>
