@@ -13,6 +13,7 @@ with open("src/features.csv", "r") as infile:
     for row in reader:
         # row["default_value"] = float(row["default_value"])
         column = row["feature_dutch_underscore"]
+        row["index"] = int(row["index"])
         try:
             row["default_value"] = float(sample_row[column])
         except Exception as e:
