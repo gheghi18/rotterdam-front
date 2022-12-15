@@ -2,6 +2,7 @@
   import FIELDS from "./features.json";
   import Field from "./Field.svelte";
   import { userFields } from "./stores.js";
+  import TextExplain from "./TextExplain.svelte";
 
   function onSort() {
     sortedFields = sortedFields.sort(sorters[sort]);
@@ -14,6 +15,10 @@
       sortedFields = FIELDS.filter((f) => f.feature_importance > 10);
       onSort();
     }
+  }
+
+  function toggleText() {
+    showText = !showText;
   }
 
   function onRandomize() {
@@ -43,6 +48,11 @@
   const URL = dev ? "http://localhost:8080/" : "https://rotterdam-model.fly.dev/";
   const AUTH = dev ? "" : "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
 
+  const featureKey = {};
+  for (const f of FIELDS) {
+    featureKey[f.index] = f.feature_english_auto_translate;
+  }
+
   const sorters = {
     alphabetical: (a, b) =>
       a.feature_english_auto_translate
@@ -61,7 +71,8 @@
   let loading = false;
   let sort = "alphabetical";
   let show = "all";
-
+  let showText = false;
+  let showTree = false;
 
   let sortedFields = FIELDS.sort(sorters[sort]);
   onResetValues();
@@ -79,6 +90,11 @@
             {score}
           {/if}
         </h1>
+        <p>
+          {#if score}
+            <button class="small" on:click|preventDefault={toggleText}>Explain Score</button>
+          {/if}
+        </p>
         <button type="submit">Check Score</button>
       </div>
 
@@ -100,12 +116,25 @@
       </p>
     </header>
 
-    <div class="fields">
-      {#each sortedFields as field, index}
-        <Field {...field} />
-      {/each}
+    <div class="left">
+      <div class="fields">
+        {#each sortedFields as field, index}
+          <Field {...field} />
+        {/each}
+      </div>
     </div>
   </form>
+
+  {#if showText}
+    <div class="modal-holder">
+      <div class="text-explainer">
+        <a href="#" on:click|preventDefault={toggleText}>Close</a>
+        <div class="text-tree">
+          <TextExplain userFields={$userFields} />
+        </div>
+      </div>
+    </div>
+  {/if}
 </main>
 
 <style>
@@ -123,11 +152,14 @@
     margin-bottom: 30px;
   }
 
+  .left {
+    margin-left: 300px;
+  }
+
   .fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 30px;
-    margin-left: 300px;
     /* display: flex; */
     /* flex-wrap: wrap; */
   }
@@ -142,5 +174,30 @@
     font-size: 2em;
     padding: 20px;
     width: 100%;
+  }
+  .text-explainer {
+    position: fixed;
+    z-index: 999;
+    width: 80%;
+    height: 80%;
+    border: 1px solid #000;
+    box-shadow: 0px 0px 15px #000;
+    overflow: scroll;
+    top: 10%;
+    left: 10%;
+    background-color: #fff;
+  }
+  .modal-holder {
+    position: fixed;
+    z-index: 998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  .text-tree {
+    max-width: 900px;
+    margin: auto;
   }
 </style>

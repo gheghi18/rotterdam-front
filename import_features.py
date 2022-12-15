@@ -8,12 +8,14 @@ with open("../predict-api/src/sample.csv", "r") as infile:
 
 sample_row = sample_rows[0]
 
-with open("src/features.csv", "r") as infile:
+with open("features.csv", "r") as infile:
     reader = csv.DictReader(infile)
     for row in reader:
         # row["default_value"] = float(row["default_value"])
         column = row["feature_dutch_underscore"]
         row["index"] = int(row["index"])
+        if row["feature_english"] != "":
+            row["feature_english_auto_translate"] = row["feature_english"]
         try:
             row["default_value"] = float(sample_row[column])
         except Exception as e:

@@ -13,7 +13,6 @@
     sum,
     category,
     index;
-
 </script>
 
 <div class="field" id={"field-" + index}>
@@ -21,8 +20,7 @@
     name={feature_dutch_underscore}
     type="number"
     step="0.01"
-    bind:value={$userFields[index]}
-  />
+    bind:value={$userFields[index]} />
   <label for={feature_dutch_underscore}>
     <div class="title">{feature_english_auto_translate}</div>
     <div class="description">{description_english}</div>
@@ -43,7 +41,6 @@
   /* } */
 
   .field div {
-
   }
 
   .title {
@@ -52,7 +49,7 @@
   }
 
   .importance {
-    font-size: .8em;
+    font-size: 0.8em;
     color: #777;
   }
 
