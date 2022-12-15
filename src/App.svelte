@@ -1,5 +1,5 @@
 <script>
-  import FIELDS from "./features.json";
+  import FIELDS from "./fields.js";
   import Field from "./Field.svelte";
   import { userFields } from "./stores.js";
   import TextExplain from "./TextExplain.svelte";

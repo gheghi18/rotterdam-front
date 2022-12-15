@@ -1,6 +1,6 @@
 <script>
   import TREES from "./trees.json";
-  import FIELDS from "./features.json";
+  import FIELDS from "./fields.js";
 
   export let userFields = [];
 
@@ -48,25 +48,53 @@
       }
     }
   }
-  const _sentences = [];
+
+  // const _sentences = [];
+  //
+  // for (const key in reasons) {
+  //   let s = `Because ${featureKey[key]} is `;
+  //   let clauses = reasons[key]
+  //     .map((r) => {
+  //       const [comp, split] = r.split("::");
+  //       if (comp == "true" || comp == "false") {
+  //         return comp;
+  //       } else {
+  //         return `${comp} than ${split}`;
+  //       }
+  //     })
+  //     .join(" and ");
+  //   s += clauses;
+  //   _sentences.push(s);
+  // }
+  // sentences = _sentences;
+
+  let explainations = [];
+
   for (const key in reasons) {
-    let s = `Because ${featureKey[key]} is `;
-    let clauses = reasons[key]
-      .map((r) => {
-        const [comp, split] = r.split("::");
-        if (comp == "true" || comp == "false") {
-          return comp;
-        } else {
-          return `${comp} than ${split}`;
-        }
-      })
-      .join(" and ");
-    s += clauses;
-    _sentences.push(s);
+    const item = {};
+    item.name = featureKey[key];
+    item.clauses = reasons[key].map((r) => {
+      const [comp, split] = r.split("::");
+      return { comp, split };
+    });
+    explainations.push(item);
   }
-  sentences = _sentences;
 </script>
 
-{#each sentences as sentence}
-  <p>{sentence}</p>
-{/each}
+<section>
+  {#each explainations as e}
+    <p>
+      Because {e.name} is
+      {#each e.clauses as c, i}
+        {#if c.comp == "true" || c.comp == "false"}{c.comp}{:else}{c.comp} than {c.split}{/if}{#if i < e.clauses.length - 1}
+          , and{" "}
+        {:else}.{/if}
+      {/each}
+    </p>
+  {/each}
+</section>
+
+<style>
+  p {
+  }
+</style>
