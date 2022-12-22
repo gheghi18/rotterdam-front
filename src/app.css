@@ -1,4 +1,7 @@
-:root, button, input, select {
+:root,
+button,
+input,
+select {
   font-family: Times, serif;
   font-size: 16px;
   font-weight: 400;

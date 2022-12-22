@@ -3,6 +3,7 @@
   import Field from "./Field.svelte";
   import { userFields } from "./stores.js";
   import TextExplain from "./TextExplain.svelte";
+  import Trees from "./Trees.svelte";
 
   function onSort() {
     sortedFields = sortedFields.sort(sorters[sort]);
@@ -132,6 +133,7 @@
         <div class="text-tree">
           <TextExplain userFields={$userFields} />
         </div>
+        <Trees/>
       </div>
     </div>
   {/if}
