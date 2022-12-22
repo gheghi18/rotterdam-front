@@ -25,7 +25,6 @@
   function onRandomize() {
     userFields.set(
       FIELDS.map((f) => {
-        console.log(f.index);
         if (f.type == "boolean") {
           return Math.random() < 0.5 ? 0.0 : 1.0;
         } else if (f.type == "float") {
