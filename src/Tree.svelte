@@ -9,7 +9,7 @@
 
   const featureKey = {};
   for (const f of FIELDS) {
-    featureKey[f.index] = f.feature_english_auto_translate;
+    featureKey[f.index] = f;
   }
 
   // for (let uf of $userFields) {
@@ -21,8 +21,9 @@
   function makeTree(_data) {
     function make(data, rownum, selected) {
       const [t_id, var_id, split, left, right] = data[rownum];
-      const name = featureKey[var_id] || split.toFixed(4);
-      const item = { name, selected, var_id, split, t_id, children: [], id: "t" + t_id };
+      const name = var_id >= 0 ? featureKey[var_id].feature_english_auto_translate : split.toFixed(4);
+      const type = var_id >= 0 ? featureKey[var_id].type : null;
+      const item = { name, selected, var_id, type, split, t_id, children: [], id: "t" + t_id };
 
       if (var_id != -1) {
         let leftSelected = false;
@@ -74,35 +75,35 @@
 <svg viewbox={[x, y, w, h]}>
   <g bind:this={g}>
     {#each treeX.links() as link}
-      <path
-        id={link.source.data.id + link.target.data.id + index}
-        class:selected={link.source.data.selected && link.target.data.selected}
-        d={"M" + link.source.x + " " + link.source.y + " L" + link.target.x + " " + link.target.y}
-      />
+      {#if link.target.x > link.source.x}
+        <path
+          id={link.source.data.id + link.target.data.id + index}
+          class:selected={link.source.data.selected && link.target.data.selected}
+          d={"M" + link.source.x + " " + link.source.y + " L" + link.target.x + " " + link.target.y}
+        />
+      {:else}
+        <path
+          id={link.source.data.id + link.target.data.id + index}
+          class:selected={link.source.data.selected && link.target.data.selected}
+          d={"M" + link.target.x + " " + link.target.y + " L" + link.source.x + " " + link.source.y}
+        />
+      {/if}
       <text
         class="split"
         dy="-3"
         class:selected={link.source.data.selected && link.target.data.selected}
       >
-        {#if link.target.x > link.source.x}
-          <textPath
-            startOffset="50%"
-            side="left"
-            class="split"
-            href={"#" + link.source.data.id + link.target.data.id + index}
-          >
-            {" >= "}{link.source.data.split}
-          </textPath>
-        {:else}
-          <textPath
-            startOffset="50%"
-            side="right"
-            class="split"
-            href={"#" + link.source.data.id + link.target.data.id + index}
-          >
-            {link.source.data.split}{" > "}
-          </textPath>
-        {/if}
+        <textPath
+          startOffset="50%"
+          class="split"
+          href={"#" + link.source.data.id + link.target.data.id + index}
+        >
+          {#if link.target.x > link.source.x}
+            {link.source.data.type == "boolean" ? "true" : " >= " + link.source.data.split}
+          {:else}
+            {link.source.data.type == "boolean" ? "false" : link.source.data.split + " > "}
+          {/if}
+        </textPath>
       </text>
     {/each}
 
