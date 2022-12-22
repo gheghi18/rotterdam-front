@@ -6,12 +6,12 @@
   import Trees from "./Trees.svelte";
 
   function onSort() {
-    sortedFields = sortedFields.sort(sorters[sort]);
+    sortedFields = [...sortedFields].sort(sorters[sort]);
   }
 
   function onFilter() {
     if (show == "all") {
-      sortedFields = FIELDS.sort(sorters[sort]);
+      sortedFields = [...FIELDS].sort(sorters[sort]);
     } else {
       sortedFields = FIELDS.filter((f) => f.feature_importance > 10);
       onSort();
@@ -23,7 +23,18 @@
   }
 
   function onRandomize() {
-    userFields.set(FIELDS.map((f) => parseInt(Math.random() * 100)));
+    userFields.set(
+      FIELDS.map((f) => {
+        console.log(f.index);
+        if (f.type == "boolean") {
+          return Math.random() < 0.5 ? 0.0 : 1.0;
+        } else if (f.type == "float") {
+          return +(Math.random() * 100).toFixed(1);
+        } else {
+          return parseInt(Math.random() * 100);
+        }
+      })
+    );
   }
 
   function onResetValues() {
@@ -75,7 +86,7 @@
   let showText = false;
   let showTree = false;
 
-  let sortedFields = FIELDS.sort(sorters[sort]);
+  let sortedFields = [...FIELDS].sort(sorters[sort]);
   onResetValues();
 </script>
 
@@ -88,7 +99,7 @@
           {#if loading}
             ...
           {:else}
-            {score}
+            {score.toFixed(3)}
           {/if}
         </h1>
         <p>
@@ -133,7 +144,7 @@
         <div class="text-tree">
           <TextExplain userFields={$userFields} />
         </div>
-        <Trees/>
+        <Trees />
       </div>
     </div>
   {/if}
