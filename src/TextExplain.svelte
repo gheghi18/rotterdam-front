@@ -9,7 +9,7 @@
   const featureKey = {};
 
   for (const f of FIELDS) {
-    featureKey[f.index] = f.feature_english_auto_translate;
+    featureKey[f.index] = f;
   }
 
   const keys = TREES.keys;
@@ -72,7 +72,7 @@
 
   for (const key in reasons) {
     const item = {};
-    item.name = featureKey[key];
+    item.name = featureKey[key].feature_english_auto_translate;
     item.clauses = reasons[key].map((r) => {
       const [comp, split] = r.split("::");
       return { comp, split };

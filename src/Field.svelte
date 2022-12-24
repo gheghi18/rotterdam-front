@@ -13,6 +13,7 @@
     sum,
     category,
     type,
+    feature_english,
     index;
 </script>
 

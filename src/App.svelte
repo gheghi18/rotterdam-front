@@ -4,6 +4,8 @@
   import { userFields } from "./stores.js";
   import TextExplain from "./TextExplain.svelte";
   import Trees from "./Trees.svelte";
+  import TextAndTree from "./TextAndTree.svelte";
+  import TextAndTreeFull from "./TextAndTreeFull.svelte";
 
   function onSort() {
     sortedFields = [...sortedFields].sort(sorters[sort]);
@@ -128,6 +130,8 @@
     </header>
 
     <div class="left">
+      <!-- <TextAndTree userFields={$userFields} /> -->
+      <!-- <TextAndTreeFull userFields={$userFields} /> -->
       <div class="fields">
         {#each sortedFields as field, index}
           <Field {...field} />
@@ -143,7 +147,7 @@
         <div class="text-tree">
           <TextExplain userFields={$userFields} />
         </div>
-        <Trees />
+        <!-- <Trees /> -->
       </div>
     </div>
   {/if}
