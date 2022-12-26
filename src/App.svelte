@@ -34,7 +34,6 @@
   let explainView = "text";
   let treeIndex = 499;
   let fieldElements = [];
-  let highlightedField = -1;
 
   let sortedFields = [...FIELDS].sort(sorters[sort]);
   onResetValues();
@@ -84,10 +83,6 @@
 
   function onChangeView() {}
 
-  function traceFeature(vId){
-    highlightedField = vId;
-  }
-
   async function onSubmit(e) {
     loading = true;
     let data = { auth: AUTH, d: [$userFields] };
@@ -114,7 +109,7 @@
       <form on:submit|preventDefault={onSubmit}>
         <div class="fields">
           {#each sortedFields as field, index}
-            <Field {...field} highlight={highlightedField==field.index} bind:this={fieldElements[index]} />
+            <Field {...field} bind:this={fieldElements[index]} />
           {/each}
         </div>
       </form>
@@ -177,7 +172,7 @@
               {#each Array(treeIndex + 1) as _, index (index)}
                 <div class="text-tree">
                   <h3>Tree {index + 1}</h3>
-                  <TextTree data={trees[index]} traceFeature={traceFeature}/>
+                  <TextTree data={trees[index]} />
                 </div>
               {/each}
             {/key}

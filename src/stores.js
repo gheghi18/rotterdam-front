@@ -3,3 +3,4 @@ import { writable } from "svelte/store";
 
 // export const userFields = writable(FIELDS.map((f) => f.default_value));
 export const userFields = writable([]);
+export const highlightedField = writable(-1);

@@ -2,10 +2,10 @@
   import TREES from "./trees.json";
   import FIELDS from "./fields.js";
   import { userFields } from "./stores.js";
+  import { highlightedField } from "./stores.js";
 
   // export let userFields = [];
   export let data;
-  export let traceFeature;
 
   const featureKey = {};
 
@@ -56,7 +56,7 @@
 <p>
   Because
   {#each explanations as e, index}
-    <span class="name" on:click={traceFeature(e.var_id)}>{e.name.toLowerCase()}</span> is
+    <span class="name" on:click={() => highlightedField.set(e.var_id)}>{e.name.toLowerCase()}</span> is
     {#if e.type == "boolean"}
       <span class="comp">{e.comparison}</span>{#if index < explanations.length - 1}, and {" "}{:else},{/if}
     {:else}

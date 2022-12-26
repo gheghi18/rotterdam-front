@@ -1,5 +1,7 @@
 <script>
   import { userFields } from "./stores.js";
+  import { highlightedField } from "./stores.js";
+
   export let show = true;
 
   export let feature_dutch_underscore,
@@ -16,7 +18,8 @@
     feature_english,
     index;
 
-  export let highlight=false;
+  let highlight=false;
+  let el;
 
   let timeout;
   export function animate(){
@@ -31,9 +34,20 @@
   // userFields.subscribe(val => {
   //     console.log(index, val[index]);
   // });
+
+  highlightedField.subscribe(val => {
+    if (val == index) {
+      highlight = true;
+      if (el) {
+        el.scrollIntoView({behavior: "smooth"});
+      }
+    } else {
+      highlight = false;
+    }
+  });
 </script>
 
-<div class="field" id={"field-" + index} class:highlight={highlight}>
+<div class="field" id={"field-" + index} class:highlight={highlight} bind:this={el}>
   <div class="input-holder" style:opacity={opacity}>
     {#if type == "boolean"}
       <select name={feature_dutch_underscore} bind:value={$userFields[index]}>
