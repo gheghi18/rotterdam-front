@@ -34,6 +34,7 @@
   let explainView = "text";
   let treeIndex = 499;
   let fieldElements = [];
+  let highlightedField = -1;
 
   let sortedFields = [...FIELDS].sort(sorters[sort]);
   onResetValues();
@@ -83,6 +84,10 @@
 
   function onChangeView() {}
 
+  function traceFeature(vId){
+    highlightedField = vId;
+  }
+
   async function onSubmit(e) {
     loading = true;
     let data = { auth: AUTH, d: [$userFields] };
@@ -109,7 +114,7 @@
       <form on:submit|preventDefault={onSubmit}>
         <div class="fields">
           {#each sortedFields as field, index}
-            <Field {...field} bind:this={fieldElements[index]} />
+            <Field {...field} highlight={highlightedField==field.index} bind:this={fieldElements[index]} />
           {/each}
         </div>
       </form>
@@ -172,7 +177,7 @@
               {#each Array(treeIndex + 1) as _, index (index)}
                 <div class="text-tree">
                   <h3>Tree {index + 1}</h3>
-                  <TextTree data={trees[index]} />
+                  <TextTree data={trees[index]} traceFeature={traceFeature}/>
                 </div>
               {/each}
             {/key}
@@ -200,7 +205,7 @@
         <div class="score-label">Risk Score</div>
         <div class="score-value">
           {#if loading}
-            ...
+            <div class="loader"></div>
           {:else}
             {score > 0 ? score : "?"}
           {/if}
@@ -336,6 +341,7 @@
 
   .output .tip {
     width: 50%;
+    margin: 0;
   }
 
   .left {
@@ -356,8 +362,10 @@
   }
 
   .score {
+    display: flex;
     border: 1px solid #000;
-    transition: 1s all;
+    /* transition: all 3s; */
+    /* background-color: hsl(100, 100%, 50%); */
   }
 
   .score-label,
@@ -367,7 +375,7 @@
   }
 
   .score-label {
-    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
     font-size: 0.9em;
     /* color: #fff; */
   }

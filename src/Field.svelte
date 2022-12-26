@@ -16,6 +16,8 @@
     feature_english,
     index;
 
+  export let highlight=false;
+
   let timeout;
   export function animate(){
     clearTimeout(timeout);
@@ -31,7 +33,7 @@
   // });
 </script>
 
-<div class="field" id={"field-" + index}>
+<div class="field" id={"field-" + index} class:highlight={highlight}>
   <div class="input-holder" style:opacity={opacity}>
     {#if type == "boolean"}
       <select name={feature_dutch_underscore} bind:value={$userFields[index]}>
@@ -62,6 +64,11 @@
     align-items: flex-start;
     padding: 15px;
     border-bottom: 1px solid #666;
+    transition: 0.5s all;
+  }
+
+  .field.highlight {
+    background-color: yellow;
   }
 
   /* .field:nth-child(even) { */

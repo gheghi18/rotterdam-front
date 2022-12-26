@@ -5,7 +5,7 @@
 
   // export let userFields = [];
   export let data;
-
+  export let traceFeature;
 
   const featureKey = {};
 
@@ -45,23 +45,57 @@
     }
   }
 
-  let sentence = "Because " + explanations.map(e => {
-    if (e.type == "boolean") return e.name.toLowerCase() + " is " + e.comparison;
-    else return e.name.toLowerCase() + " is " + e.comparison + " than " + e.split
-  }).join(", and ") + ", the score is " + score;
+  // let clauses = explanations.map(e => {
+  //   if (e.type == "boolean") return `${e.name.toLowerCase()} is ${e.comparison}`;
+  //   else return `${e.name.toLowerCase()} is ${e.comparison} than ${e.split}`;
+  // }).join(", and ");
+  //
+  // let sentence = `Because ${clauses}, the score is ${score}.`;
 </script>
-<p>{sentence}</p>
+
+<p>
+  Because
+  {#each explanations as e, index}
+    <span class="name" on:click={traceFeature(e.var_id)}>{e.name.toLowerCase()}</span> is
+    {#if e.type == "boolean"}
+      <span class="comp">{e.comparison}</span>{#if index < explanations.length - 1}, and {" "}{:else},{/if}
+    {:else}
+      <span class="comp">{e.comparison} than {e.split}</span>{#if index < explanations.length - 1}, and {" "}{:else},{/if}
+    {/if}
+  {/each}
+  the score is <span class="score">{score}</span>.
+</p>
+
 <!--  -->
-<!--  -->
+<!-- 
 {#each explanations as e}
   <p>
-    Because {e.name} is
+    Because <span class="name">{e.name.toLowerCase()}</span> is
     {#if e.type == "boolean"}
-      {e.comparison}.
+      <span class="comp">{e.comparison}</span>.
     {:else}
-      {e.comparison} than {e.split}.
+      <span class="comp">{e.comparison} than {e.split}</span>.
     {/if}
   </p>
-
 {/each}
-<p>Score is {score}.</p>
+<p>Score is <span class="score">{score}</span>.</p>
+ -->
+<style>
+  p {
+    line-height: 1.5;
+  }
+  .name {
+    /* text-decoration: underline; */
+    border-bottom: 1px solid blue;
+    /* background-color: yellow; */
+    cursor: pointer;
+  }
+  .comp {
+    border-bottom: 1px solid red;
+    /* background-color: lightblue; */
+  }
+  .score {
+    border-bottom: 1px solid orange;
+    /* background-color: orange; */
+  }
+</style>
