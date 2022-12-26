@@ -16,7 +16,12 @@ a {
 a:hover {
 }
 
+html {
+  height: 100%;
+}
 body {
+  margin: 0;
+  height: 100%;
 }
 
 h1 {
@@ -24,5 +29,5 @@ h1 {
 
 #app {
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
 }

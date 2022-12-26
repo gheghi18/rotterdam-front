@@ -15,10 +15,24 @@
     type,
     feature_english,
     index;
+
+  let timeout;
+  export function animate(){
+    clearTimeout(timeout);
+    opacity = 0;
+    timeout = setTimeout(() => {
+      opacity = 1;
+    }, 300);
+  }
+
+  let opacity = 1;
+  // userFields.subscribe(val => {
+  //     console.log(index, val[index]);
+  // });
 </script>
 
 <div class="field" id={"field-" + index}>
-  <div class="input-holder">
+  <div class="input-holder" style:opacity={opacity}>
     {#if type == "boolean"}
       <select name={feature_dutch_underscore} bind:value={$userFields[index]}>
         <option value={0.0}>False</option>
@@ -46,7 +60,18 @@
     display: flex;
     /* max-width: 400px; */
     align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid #666;
   }
+
+  /* .field:nth-child(even) { */
+  /*   border-left: 1px solid #666; */
+  /*   border-top: 1px solid #666; */
+  /* } */
+  /*  */
+  /* .field:nth-child(odd) { */
+  /*   border-top: 1px solid #666; */
+  /* } */
 
   /* .field input, .field label { */
   /*   display: inline; */
@@ -56,7 +81,7 @@
   }
 
   .title {
-    font-size: 1.3em;
+    font-size: 1em;
     text-transform: capitalize;
   }
 
@@ -67,13 +92,13 @@
 
   input,
   select {
-    font-size: 20px;
+    font-size: 1em;
     font-family: Times, sans-serif;
     border: 1px solid #000;
     /* width: 5em; */
     /* width: 100%; */
     /* display: block; */
-    width: 110px;
+    width: 90px;
     padding: 10px;
     text-align: center;
     background-color: #fff;
@@ -82,7 +107,9 @@
   }
   .input-holder {
     margin-right: 20px;
-    width: 110px;
+    width: 90px;
+    opacity: 1;
+    transition: 0.3s opacity;
   }
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {

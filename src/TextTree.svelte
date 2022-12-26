@@ -1,12 +1,11 @@
 <script>
   import TREES from "./trees.json";
   import FIELDS from "./fields.js";
-  import Tree from "./Tree.svelte";
+  import { userFields } from "./stores.js";
 
-  export let userFields = [];
+  // export let userFields = [];
   export let data;
 
-  let explanations = [];
 
   const featureKey = {};
 
@@ -19,6 +18,7 @@
 
   let score = null;
   let index = 0;
+  let explanations = [];
 
   while (score === null) {
     const [t_id, var_id, split, left, right] = data[index];
@@ -26,7 +26,7 @@
       score = split;
       break;
     }
-    const inp = userFields[var_id];
+    const inp = $userFields[var_id];
     const type = featureKey[var_id].type;
     let comparison;
     if (type == "boolean") {
@@ -44,8 +44,15 @@
       index = right;
     }
   }
-</script>
 
+  let sentence = "Because " + explanations.map(e => {
+    if (e.type == "boolean") return e.name.toLowerCase() + " is " + e.comparison;
+    else return e.name.toLowerCase() + " is " + e.comparison + " than " + e.split
+  }).join(", and ") + ", the score is " + score;
+</script>
+<p>{sentence}</p>
+<!--  -->
+<!--  -->
 {#each explanations as e}
   <p>
     Because {e.name} is
