@@ -2,14 +2,19 @@
   import FIELDS from "./fields.js";
   import Field from "./Field.svelte";
   import { userFields } from "./stores.js";
-  import TextExplain from "./TextExplain.svelte";
+  // import TextExplain from "./TextExplain.svelte";
   import TextTree from "./TextTree.svelte";
   import Tree from "./Tree.svelte";
   import TREES from "./trees.json";
   import { fade } from "svelte/transition";
+  import LazyLoad from "@dimfeld/svelte-lazyload";
+
+  // const worker = new Worker(new URL("./worker.js", import.meta.url), {
+  //   type: "module",
+  // });
 
   const dev = false;
-  const URL = dev ? "http://localhost:8080/" : "https://rotterdam-model.fly.dev/";
+  const APIURL = dev ? "http://localhost:8080/" : "https://rotterdam-model.fly.dev/";
   const AUTH = dev ? "" : "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
   const trees = TREES.trees;
 
@@ -86,7 +91,7 @@
   async function onSubmit(e) {
     loading = true;
     let data = { auth: AUTH, d: [$userFields] };
-    let response = await fetch(URL, {
+    let response = await fetch(APIURL, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -159,10 +164,12 @@
           <div class="text-trees">
             {#key score}
               {#each Array(treeIndex + 1) as _, index (index)}
-                <div class="text-tree">
-                  <h3>Tree {index + 1}</h3>
-                  <Tree data={trees[index]} {index} userFields={$userFields} />
-                </div>
+                <LazyLoad>
+                  <div class="text-tree" in:fade={{ duration: 2000 }}>
+                    <h3>Tree {index + 1}</h3>
+                    <Tree data={trees[index]} {index} userFields={$userFields} />
+                  </div>
+                </LazyLoad>
               {/each}
             {/key}
           </div>
@@ -200,7 +207,7 @@
         <div class="score-label">Risk Score</div>
         <div class="score-value">
           {#if loading}
-            <div class="loader"></div>
+            <div class="loader" />
           {:else}
             {score > 0 ? score : "?"}
           {/if}
