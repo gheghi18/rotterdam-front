@@ -39,6 +39,11 @@
   let explainView = "text";
   let treeIndex = 499;
   let fieldElements = [];
+  let showCategories = true;
+  let categories = [];
+
+  let categoryNames = [...new Set(FIELDS.map((f) => f.category.toLowerCase()))].sort();
+  // let categories = FIELDS.map(f => f.category)
 
   let sortedFields = [...FIELDS].sort(sorters[sort]);
   onResetValues();
@@ -46,6 +51,7 @@
 
   function onSort() {
     sortedFields = [...sortedFields].sort(sorters[sort]);
+    setCategories();
   }
 
   function onFilter() {
@@ -55,6 +61,7 @@
       sortedFields = FIELDS.filter((f) => f.feature_importance > 10);
       onSort();
     }
+    setCategories();
   }
 
   function toggleText() {
@@ -80,13 +87,18 @@
         })
       );
     }, 300);
+    setCategories;
   }
 
   function onResetValues() {
     userFields.set(FIELDS.map((f) => f.default_value));
   }
 
-  function onChangeView() {}
+  function setCategories() {
+    categories = categoryNames.map((c) => {
+      return { name: c, fields: sortedFields.filter((f) => f.category.toLowerCase() == c) };
+    });
+  }
 
   async function onSubmit(e) {
     loading = true;
@@ -112,11 +124,26 @@
     </header>
     <article>
       <form on:submit|preventDefault={onSubmit}>
-        <div class="fields">
-          {#each sortedFields as field, index}
-            <Field {...field} bind:this={fieldElements[index]} />
+        {#if showCategories}
+          {#each categories as cat}
+            {#if cat.fields.length > 0}
+              <fieldset>
+                <legend class="cat-name">{cat.name}</legend>
+                <div class="fields">
+                  {#each cat.fields as field, index}
+                    <Field {...field} bind:this={fieldElements[index]} />
+                  {/each}
+                </div>
+              </fieldset>
+            {/if}
           {/each}
-        </div>
+        {:else}
+          <div class="fields">
+            {#each sortedFields as field, index}
+              <Field {...field} bind:this={fieldElements[index]} />
+            {/each}
+          </div>
+        {/if}
       </form>
     </article>
 
@@ -133,6 +160,9 @@
             <option value="alphabetical">Sort alphabetically</option>
             <option value="importance">Sort by importance</option>
           </select>
+        </p>
+        <p>
+          <label><input type="checkbox" bind:checked={showCategories} />Show Categories</label>
         </p>
       </div>
 
@@ -151,7 +181,7 @@
     <header class="output">
       <h1>Model Output</h1>
       <p>
-        <select bind:value={explainView} on:change={onChangeView}
+        <select bind:value={explainView}
           ><option value="text">View the modelling results as text</option><option value="trees"
             >View the modelling results as trees</option
           ></select
@@ -165,7 +195,7 @@
             {#key score}
               {#each Array(treeIndex + 1) as _, index (index)}
                 <LazyLoad>
-                  <div class="text-tree" in:fade={{ duration: 2000 }}>
+                  <div class="text-tree" in:fade={{ duration: 1000 }}>
                     <h3>Tree {index + 1}</h3>
                     <Tree data={trees[index]} {index} userFields={$userFields} />
                   </div>
@@ -285,14 +315,16 @@
 
   .input-options {
     display: flex;
-    align-items: center;
+    align-items: top;
   }
 
   .input-options p {
     margin: 0;
-  }
-  .input-options p:first-child {
     margin-bottom: 10px;
+  }
+
+  .input-options p:last-child {
+    margin: 0;
   }
 
   .input-options button,
@@ -333,6 +365,16 @@
 
   .input-options-section {
     margin-right: 10px;
+  }
+
+  .cat-name {
+    font-weight: normal;
+    text-transform: capitalize;
+    font-size: 20px;
+  }
+
+  fieldset {
+    margin-bottom: 20px;
   }
 
   .output {

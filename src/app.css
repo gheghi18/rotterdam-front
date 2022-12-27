@@ -43,6 +43,10 @@ h1 {
   animation: rotation 1s linear infinite;
 }
 
+fieldset .field {
+  border: none !important;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
