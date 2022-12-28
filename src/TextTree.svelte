@@ -86,16 +86,22 @@
   }
   .name {
     /* text-decoration: underline; */
-    border-bottom: 1px solid blue;
-    /* background-color: yellow; */
+    /* border-bottom: 1px solid yellow; */
+    border-bottom: 1px solid orange;
     cursor: pointer;
   }
+  .name:hover {
+    background-color: yellow;
+  }
   .comp {
-    border-bottom: 1px solid red;
+    /* border-bottom: 1px solid red; */
     /* background-color: lightblue; */
+    /* background-color: orange; */
+    /* background-color: yellow; */
   }
   .score {
-    border-bottom: 1px solid orange;
+    /* border-bottom: 1px solid orange; */
+    /* background-color: yellow; */
     /* background-color: orange; */
   }
 </style>
