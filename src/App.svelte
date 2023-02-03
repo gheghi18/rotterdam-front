@@ -8,6 +8,7 @@
   import TREES from "./trees.json";
   import { fade } from "svelte/transition";
   import LazyLoad from "@dimfeld/svelte-lazyload";
+  import archetypes from "./archetypes.json";
   import {t} from "./i18n";
 
   // const worker = new Worker(new URL("./worker.js", import.meta.url), {
@@ -19,6 +20,12 @@
   const AUTH = dev ? "" : "uApjBhZ4w6h2aFQp3nx9gQFfwnJGxqoaEGeeof7H";
   const trees = TREES.trees;
 
+  const featureKey = {};
+
+  for (const f of FIELDS) {
+    featureKey[f.feature_dutch_underscore] = f.index;
+  }
+
   const sorters = {
     alphabetical: (a, b) =>
       a.feature_english_auto_translate
@@ -26,12 +33,6 @@
         .localeCompare(b.feature_english_auto_translate.toLowerCase()),
     importance: (a, b) => b.feature_importance - a.feature_importance,
   };
-
-  const archetypes = [
-    { name: "Migrant Man", main_fields: [10, 20, 30], hidden_fields: [] },
-    { name: "Young Woman", main_fields: [11, 21, 31], hidden_fields: [] },
-    { name: "Single Mom", main_fields: [12, 22, 33], hidden_fields: [] },
-  ];
 
   let score = 0;
   let loading = false;
@@ -93,6 +94,19 @@
 
   function onResetValues() {
     userFields.set(FIELDS.map((f) => f.default_value));
+  }
+
+  function onArchetype(a) {
+    // let newVals = [];
+    // for (let k of Object.keys(a.values)) {
+    //   let val = a.values[k];
+    //   let i = featureKey[k]
+    //   console.log(i, val)
+    // }
+    let newVals = Object.keys(a.values).map(k => {
+      return a.values[k];
+    });
+    userFields.set(newVals);
   }
 
   function setCategories() {
@@ -170,6 +184,17 @@
       <div class="input-options-section">
         <p><button on:click|preventDefault={onResetValues}>{t("reset_to_average")}</button></p>
         <p><button on:click|preventDefault={onRandomize}>{t("randomize_values")}</button></p>
+        {#each archetypes as a }
+          <p>
+            <button on:click|preventDefault={() => onArchetype(a)}>{a.name}</button>
+          </p>
+        {/each}
+        <!-- <p> -->
+        <!--   <select bind:value={archetype} on:change={onArchetype}> -->
+        <!--     <option value="all">{t("show_all_fields")}</option> -->
+        <!--     <option value="important">{t("show_most_important_fields")}</option> -->
+        <!--   </select> -->
+        <!-- </p> -->
       </div>
 
       <button class="check-score" disabled={loading} on:click|preventDefault={onSubmit}

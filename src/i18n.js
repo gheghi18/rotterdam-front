@@ -8,5 +8,7 @@ lang.subscribe(val => {
 });
 
 export function t(key){
-  return translations[key][$lang] || translations[key]["en"];
+  if (!translations[key]) return key;
+  if (!translations[key][$lang]) return translations[key]["en"] || key;
+  return translations[key][$lang]
 }
