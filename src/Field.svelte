@@ -1,6 +1,6 @@
 <script>
-  import { userFields } from "./stores.js";
-  import { highlightedField } from "./stores.js";
+  import { userFields, highlightedField, lang } from "./stores.js";
+  import { t } from "./i18n.js";
 
   export let show = true;
 
@@ -8,6 +8,7 @@
     feature_dutch,
     feature_english_auto_translate,
     description_english,
+    description_dutch,
     feature_importance,
     notes,
     understand,
@@ -64,8 +65,8 @@
   <div class="input-holder" style:opacity={opacity}>
     {#if type == "boolean"}
       <select name={feature_dutch_underscore} bind:value={$userFields[index]}>
-        <option value={0.0}>False</option>
-        <option value={1.0}>True</option>
+        <option value={0.0}>{t("false")}</option>
+        <option value={1.0}>{t("true")}</option>
       </select>
     {:else}
       <input
@@ -80,14 +81,14 @@
     {/if}
   </div>
   <label for={feature_dutch_underscore}>
-    <div class="title">{feature_english_auto_translate}</div>
+    <div class="title">{$lang == "en" ? feature_english_auto_translate : feature_dutch}</div>
     <div class="description">
-      {description_english}
+      {$lang == "en" ? description_english : description_dutch}
       {#if type != "boolean"}
-        <span class="minmax">Between: {minval} and {maxval}.</span>
+        <span class="minmax">{t("between")}: {minval} and {maxval}.</span>
       {/if}
     </div>
-    <div class="importance">Importance: {feature_importance}%</div>
+    <div class="importance">{t("importance")}: {feature_importance}%</div>
   </label>
 </div>
 

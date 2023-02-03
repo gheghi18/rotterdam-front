@@ -1,0 +1,49 @@
+{
+  "between": { "en": "between", "nl": "betwen_dutch" },
+  "importance": { "en": "importance", "nl": "importance_dutch" },
+  "data_input": { "en": "Data Input", "nl": "Data Input_dutch" },
+  "model_output": { "en": "Model Output", "nl": "Model Output_dutch" },
+  "enter_your_data": { "en": "Enter your data", "nl": "Enter your data_dutch" },
+  "view_results_as_text": {
+    "en": "View the modelling results as text",
+    "nl": "view results as text_dutch"
+  },
+  "view_results_as_trees": { "en": "View the modelling results as trees", "nl": "vtrees_dutch" },
+  "risk_score": { "en": "Risk Score", "nl": "Risk Score_dutch" },
+  "show_all_fields": { "en": "Show all fields", "nl": "Show all fields_dutch" },
+  "show_most_important_fields": {
+    "en": "Show most important fields",
+    "nl": "Show most important fields_dutch"
+  },
+  "sort_alphabetically": { "en": "Sort alphabetically", "nl": "Sort alphabetically_dutch" },
+  "loading": { "en": "loading", "nl": "loading_dutch" },
+  "sort_importance": { "en": "Sort by importance", "nl": "Sort by importance_dutch" },
+  "show_categories": { "en": "Show categories", "nl": "Show categories_dutch" },
+  "run_model": { "en": "Run model", "nl": "Run model_dutch" },
+  "randomize_values": { "en": "Randomize values", "nl": "Randomize values_dutch" },
+  "reset_to_average": { "en": "Reset to average values", "nl": "Reset to average values_dutch" },
+  "true": { "en": "True", "nl": "True_dutch" },
+  "false": { "en": "False", "nl": "False_dutch" },
+  "model_description": {
+    "en": "The model is made up of 500 decision trees. The data is sent to each tree, which outputs a single score. The scores produced by each tree are then used to calculate the final prediction.",
+    "nl": "The model is made up of 500 decision trees. The data is sent to each tree, which outputs a single score. The scores produced by each tree are then used to calculate the final prediction_dutch."
+  },
+  "Enter some data and run the model to see results.": {
+    "en": "Enter some data and run the model to see results.",
+    "nl": "Enter some data and run the model to see results.duch"
+  },
+  "action plan": {"en": "action plan", "nl": "action plan_dutch"},
+  "address": {"en": "address", "nl": "address_dutch"},
+  "appointment": {"en": "appointment", "nl": "appointment_dutch"},
+  "availability": {"en": "availability", "nl": "availability_dutch"},
+  "contact": {"en": "contact", "nl": "contact_dutch"},
+  "customer type": {"en": "customer type", "nl": "customer type_dutch"},
+  "exemption": {"en": "exemption", "nl": "exemption_dutch"},
+  "instrument ladder": {"en": "instrument ladder", "nl": "instrument ladder_dutch"},
+  "obstacle": {"en": "obstacle", "nl": "obstacle_dutch"},
+  "participation act": {"en": "participation act", "nl": "participation act_dutch"},
+  "person": {"en": "person", "nl": "person_dutch"},
+  "personal qualities": {"en": "personal qualities", "nl": "personal qualities_dutch"},
+  "relationship": {"en": "relationship", "nl": "relationship_dutch"},
+  "skill": {"en": "skill", "nl": "skill_dutch"}
+}

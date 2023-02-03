@@ -8,6 +8,7 @@
   import TREES from "./trees.json";
   import { fade } from "svelte/transition";
   import LazyLoad from "@dimfeld/svelte-lazyload";
+  import {t} from "./i18n";
 
   // const worker = new Worker(new URL("./worker.js", import.meta.url), {
   //   type: "module",
@@ -119,8 +120,8 @@
 <main>
   <section>
     <header>
-      <h1>Data Input</h1>
-      <p>Enter your data</p>
+      <h1>{t("data_input")}</h1>
+      <p>{t("enter_your_data")}</p>
     </header>
     <article>
       <form on:submit|preventDefault={onSubmit}>
@@ -128,7 +129,7 @@
           {#each categories as cat}
             {#if cat.fields.length > 0}
               <fieldset>
-                <legend class="cat-name">{cat.name}</legend>
+                <legend class="cat-name">{t(cat.name)}</legend>
                 <div class="fields">
                   {#each cat.fields as field, index}
                     <Field {...field} bind:this={fieldElements[index]} />
@@ -151,41 +152,40 @@
       <div class="input-options-section">
         <p>
           <select bind:value={show} on:change={onFilter}>
-            <option value="all">Show all fields</option>
-            <option value="important">Show most important fields</option>
+            <option value="all">{t("show_all_fields")}</option>
+            <option value="important">{t("show_most_important_fields")}</option>
           </select>
         </p>
         <p>
           <select bind:value={sort} on:change={onSort}>
-            <option value="alphabetical">Sort alphabetically</option>
-            <option value="importance">Sort by importance</option>
+            <option value="alphabetical">{t("sort_alphabetically")}</option>
+            <option value="importance">{t("sort_importance")}</option>
           </select>
         </p>
         <p>
-          <label><input type="checkbox" bind:checked={showCategories} />Show Categories</label>
+          <label><input type="checkbox" bind:checked={showCategories} />{t("show_categories")}</label>
         </p>
       </div>
 
       <div class="input-options-section">
-        <p><button on:click|preventDefault={onResetValues}>Reset to average values</button></p>
-        <p><button on:click|preventDefault={onRandomize}>Randomize values</button></p>
+        <p><button on:click|preventDefault={onResetValues}>{t("reset_to_average")}</button></p>
+        <p><button on:click|preventDefault={onRandomize}>{t("randomize_values")}</button></p>
       </div>
 
       <button class="check-score" disabled={loading} on:click|preventDefault={onSubmit}
-        >Run Model</button
+        >{t("run_model")}</button
       >
     </nav>
   </section>
 
   <section>
     <header class="output">
-      <h1>Model Output</h1>
+      <h1>{t("model_output")}</h1>
       <p>
-        <select bind:value={explainView}
-          ><option value="text">View the modelling results as text</option><option value="trees"
-            >View the modelling results as trees</option
-          ></select
-        >
+        <select bind:value={explainView}>
+          <option value="text">{t("view_results_as_text")}</option>
+          <option value="trees">{t("view_results_as_trees")}</option>
+        </select>
       </p>
     </header>
     <article>
@@ -219,9 +219,9 @@
         <div class="no-score">
           <div>
             {#if loading}
-              <p>...loading...</p>
+              <p>...{t("loading")}...</p>
             {:else}
-              <p>Enter some data and run the model to see results.</p>
+              <p>{t("Enter some data and run the model to see results.")}</p>
             {/if}
           </div>
         </div>
@@ -229,12 +229,10 @@
     </article>
     <nav class="output">
       <p class="tip">
-        The model is made up of 500 decision trees. The data is sent to each tree, which outputs a
-        single score. The scores produced by each tree are then used to calculate the final
-        prediction.
+        {t("model_description")}
       </p>
       <div class="score" style="background-color: hsl({100 - score * 100}, 100%, 50%)">
-        <div class="score-label">Risk Score</div>
+        <div class="score-label">{t("risk_score")}</div>
         <div class="score-value">
           {#if loading}
             <div class="loader" />
