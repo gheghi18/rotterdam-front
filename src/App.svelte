@@ -184,6 +184,7 @@
       <div class="input-options-section">
         <p><button on:click|preventDefault={onResetValues}>{t("reset_to_average")}</button></p>
         <p><button on:click|preventDefault={onRandomize}>{t("randomize_values")}</button></p>
+        <!--
         {#each archetypes as a }
           <p>
             <button on:click|preventDefault={() => onArchetype(a)}>{a.name}</button>
