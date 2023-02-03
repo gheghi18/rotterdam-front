@@ -71,22 +71,22 @@
   function onRandomize() {
     // randomizing = true;
     // console.log(fieldElements);
-    for (let f of fieldElements) {
-      f.animate();
-    }
-    setTimeout(() => {
+    // for (let f of fieldElements) {
+    //   f.animate();
+    // }
+    // setTimeout(() => {
       userFields.set(
         FIELDS.map((f) => {
           if (f.type == "boolean") {
             return Math.random() < 0.5 ? 0.0 : 1.0;
           } else if (f.type == "float") {
-            return +(Math.random() * 100).toFixed(1);
+            return +(Math.random() * f.maxval).toFixed(1);
           } else {
-            return parseInt(Math.random() * 100);
+            return parseInt(Math.random() * f.maxval);
           }
         })
       );
-    }, 300);
+    // }, 300);
     setCategories;
   }
 

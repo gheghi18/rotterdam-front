@@ -28,14 +28,31 @@ feature_types = {}
 with open("features_types.csv", "r") as infile:
     reader = csv.DictReader(infile)
     for row in reader:
-        feature_types[row["feature_names_model"]] = row["subtype"]
+        # feature_types[row["feature_names_model"]] = row["subtype"]
+        feature_types[row["feature_names_model"]] = row
+        # subtype = row["subtype"]
+        # minimum_value = row["minimum_value"]
+        # maximum_value = row["maximum_value"]
+        # unique_values = row["unique_values"]
+        # if minimum_value == "0" and maximum_value == "1" and unique_values == "2" and subtype != "boolean":
+        #     print(row["unique_id"])
+        #     print("OH SHIT")
+
+
+defaults = {}
+with open("default_values.csv", "r") as infile:
+    reader = csv.DictReader(infile)
+    row = next(reader)
+    for k, v in row.items():
+        defaults[k] = float(v)
+
 
 vals = []
 out = []
 with open("features.csv", "r") as infile:
     reader = csv.DictReader(infile)
     rows = list(reader)
-    headers = list(rows[0].keys()) + ["type"]
+    headers = list(rows[0].keys()) + ["type", "minval", "maxval"]
     for row in rows:
         row["default_value"] = float(row["default_value"])
         column = row["feature_dutch_underscore"]
@@ -47,7 +64,11 @@ with open("features.csv", "r") as infile:
         # except Exception as e:
         #     print(e)
         #     row["default_value"] = float(row["default_value"])
-        row["type"] = feature_types[row["feature_dutch_underscore"]]
+        extras = feature_types[row["feature_dutch_underscore"]]
+        row["type"] = extras["subtype"]
+        row["minval"] = float(extras["minimum_value"])
+        row["maxval"] = float(extras["maximum_value"])
+        row["default_value"] = defaults[row["feature_dutch_underscore"]]
         vals.append(list(row.values()))
 
 # print(headers)

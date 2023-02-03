@@ -16,6 +16,8 @@
     category,
     type,
     feature_english,
+    minval,
+    maxval,
     index;
 
   let highlight=false;
@@ -28,6 +30,17 @@
     timeout = setTimeout(() => {
       opacity = 1;
     }, 300);
+  }
+
+  function checkVal(e) {
+    if (e.target.value > maxval)  {
+      $userFields[index] = maxval;
+    }
+
+    if (e.target.value < minval) {
+      $userFields[index] = minval;
+      return false;
+    }
   }
 
   let opacity = 1;
@@ -59,13 +72,21 @@
         name={feature_dutch_underscore}
         type="number"
         step={type == "float" ? 0.01 : 1}
+        min={minval}
+        max={maxval}
         bind:value={$userFields[index]}
+        on:change={checkVal}
       />
     {/if}
   </div>
   <label for={feature_dutch_underscore}>
     <div class="title">{feature_english_auto_translate}</div>
-    <div class="description">{description_english}</div>
+    <div class="description">
+      {description_english}
+      {#if type != "boolean"}
+        <span class="minmax">Between: {minval} and {maxval}.</span>
+      {/if}
+    </div>
     <div class="importance">Importance: {feature_importance}%</div>
   </label>
 </div>
