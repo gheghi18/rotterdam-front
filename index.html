@@ -8,5 +8,15 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const cssOverride = params.get("css");
+      if (cssOverride) {
+        const el = document.createElement("link");
+        el.rel = "stylesheet";
+        el.href = cssOverride;
+        document.body.appendChild(el);
+      }
+    </script>
   </body>
 </html>
