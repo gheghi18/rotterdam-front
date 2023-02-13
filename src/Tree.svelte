@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { hierarchy, tree } from "d3";
+  import {lang} from "./stores.js";
   import FIELDS from "./fields.js";
 
   export let data;
@@ -21,7 +22,12 @@
   function makeTree(_data) {
     function make(data, rownum, selected) {
       const [t_id, var_id, split, left, right] = data[rownum];
-      const name = var_id >= 0 ? featureKey[var_id].feature_english_auto_translate : split.toFixed(4);
+      let name;
+      if (var_id >= 0) {
+        name = $lang == "en" ? featureKey[var_id].feature_english_auto_translate : featureKey[var_id].feature_dutch;
+      } else {
+        name = split.toFixed(4);
+      }
       const type = var_id >= 0 ? featureKey[var_id].type : null;
       const item = { name, selected, var_id, type, split, t_id, children: [], id: "t" + t_id };
 

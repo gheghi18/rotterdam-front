@@ -1,8 +1,8 @@
 <script>
   import TREES from "./trees.json";
   import FIELDS from "./fields.js";
-  import { userFields } from "./stores.js";
-  import { highlightedField } from "./stores.js";
+  import { userFields, highlightedField, lang } from "./stores.js";
+  import { t } from "./i18n.js";
 
   // export let userFields = [];
   export let data;
@@ -30,12 +30,12 @@
     const type = featureKey[var_id].type;
     let comparison;
     if (type == "boolean") {
-      comparison = inp < split ? "false" : "true";
+      comparison = inp < split ? t("false") : t("true");
     } else {
-      comparison = inp < split ? "less" : "more";
+      comparison = inp < split ? t("less") : t("more");
     }
     // const comparison = inp < split ? "less" : "more";
-    const name = featureKey[var_id].feature_english_auto_translate;
+    const name = $lang == "en" ? featureKey[var_id].feature_english_auto_translate : featureKey[var_id].feature_dutch;
     explanations.push({ var_id, name, type, inp, split, comparison });
 
     if (inp < split) {
@@ -54,16 +54,16 @@
 </script>
 
 <p>
-  Because
+  {t("Because")}
   {#each explanations as e, index}
-    <span class="name" on:click={() => highlightedField.set(e.var_id)}>{e.name.toLowerCase()}</span> is
+    <span class="name" on:click={() => highlightedField.set(e.var_id)}>{e.name.toLowerCase()}</span> {t("is")}
     {#if e.type == "boolean"}
-      <span class="comp">{e.comparison}</span>{#if index < explanations.length - 1}, and {" "}{:else},{/if}
+      <span class="comp">{e.comparison}</span>{#if index < explanations.length - 1}, {t("and")} {" "}{:else},{/if}
     {:else}
-      <span class="comp">{e.comparison} than {e.split}</span>{#if index < explanations.length - 1}, and {" "}{:else},{/if}
+      <span class="comp">{e.comparison} {t("than")} {e.split}</span>{#if index < explanations.length - 1}, {t("and")} {" "}{:else},{/if}
     {/if}
   {/each}
-  the score is <span class="score">{score}</span>.
+  {t("the score is")} <span class="score">{score}</span>.
 </p>
 
 <!--  -->

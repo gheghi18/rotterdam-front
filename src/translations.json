@@ -24,6 +24,15 @@
   "reset_to_average": { "en": "Reset to average values", "nl": "Reset to average values_dutch" },
   "true": { "en": "True", "nl": "True_dutch" },
   "false": { "en": "False", "nl": "False_dutch" },
+  "less": { "en": "less", "nl": "less_dutch" },
+  "more": { "en": "more", "nl": "more_dutch" },
+  "Because": { "en": "Because", "nl": "Because_dutch" },
+  "is": { "en": "is", "nl": "is_dutch" },
+  "to": { "en": "to", "nl": "to_dutch" },
+  "and": { "en": "and", "nl": "and_dutch" },
+  "then": { "en": "then", "nl": "then_dutch" },
+  "Tree": { "en": "Tree", "nl": "Tree_dutch" },
+  "the score is": { "en": "the score is", "nl": "the score is_dutch" },
   "model_description": {
     "en": "The model is made up of 500 decision trees. The data is sent to each tree, which outputs a single score. The scores produced by each tree are then used to calculate the final prediction.",
     "nl": "The model is made up of 500 decision trees. The data is sent to each tree, which outputs a single score. The scores produced by each tree are then used to calculate the final prediction_dutch."

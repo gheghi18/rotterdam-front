@@ -79,14 +79,14 @@
         on:change={checkVal}
       />
     {/if}
+    {#if type != "boolean"}
+      <div class="minmax">{minval} {t("to")} {maxval}</div>
+    {/if}
   </div>
   <label for={feature_dutch_underscore}>
     <div class="title">{$lang == "en" ? feature_english_auto_translate : feature_dutch}</div>
     <div class="description">
       {$lang == "en" ? description_english : description_dutch}
-      {#if type != "boolean"}
-        <span class="minmax">{t("between")}: {minval} and {maxval}.</span>
-      {/if}
     </div>
     <div class="importance">{t("importance")}: {feature_importance}%</div>
   </label>
@@ -105,6 +105,13 @@
 
   .field.highlight {
     background-color: yellow;
+  }
+
+  .minmax {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #777;
   }
 
   /* .field:nth-child(even) { */

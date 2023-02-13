@@ -223,7 +223,7 @@
               {#each Array(treeIndex + 1) as _, index (index)}
                 <LazyLoad>
                   <div class="text-tree" in:fade={{ duration: 1000 }}>
-                    <h3>Tree {index + 1}</h3>
+                    <h3>{t("Tree")} {index + 1}</h3>
                     <Tree data={trees[index]} {index} userFields={$userFields} />
                   </div>
                 </LazyLoad>
@@ -235,7 +235,7 @@
             {#key score}
               {#each Array(treeIndex + 1) as _, index (index)}
                 <div class="text-tree">
-                  <h3>Tree {index + 1}</h3>
+                  <h3>{t("Tree")} {index + 1}</h3>
                   <TextTree data={trees[index]} />
                 </div>
               {/each}
