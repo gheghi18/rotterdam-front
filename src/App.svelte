@@ -116,6 +116,7 @@
   }
 
   async function onSubmit(e) {
+    document.querySelectorAll('main section')[1].scrollIntoView({behavior: 'smooth'});
     loading = true;
     let data = { auth: AUTH, d: [$userFields] };
     let response = await fetch(APIURL, {
@@ -257,14 +258,21 @@
       <p class="tip">
         {t("model_description")}
       </p>
-      <div class="score" style="background-color: hsl({100 - score * 100}, 100%, 50%)">
-        <div class="score-label">{t("risk_score")}</div>
-        <div class="score-value">
-          {#if loading}
-            <div class="loader" />
-          {:else}
-            {score > 0 ? score : "?"}
-          {/if}
+      <div>
+        <div class="score" style="background-color: hsl({100 - score * 100}, 100%, 50%)">
+          <div class="score-label">{t("risk_score")}</div>
+          <div class="score-value">
+            {#if loading}
+              <div class="loader" />
+            {:else}
+              {score > 0 ? score : "?"}
+            {/if}
+          </div>
+        </div>
+        <div class="input-options edit-input">
+          <button on:click={() => {window.scrollTo({top: 0, left: 0, behavior: 'smooth'})}}>
+            {t("Edit Input")}
+          </button>
         </div>
       </div>
     </nav>
@@ -366,11 +374,6 @@
     box-shadow: 3px 3px 0px #000;
   }
 
-  .input-options button:hover {
-    /* background: #000; */
-    /* color: #fff; */
-  }
-
   .input-options button:active {
     position: relative;
     top: 2px;
@@ -466,4 +469,37 @@
     color: #888;
     background-color: #eee;
   }
+
+  .edit-input {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    main {
+      grid-template-columns: 1fr;
+      height: 100vh;
+    }
+    .fields {
+      grid-template-columns: 1fr;
+    }
+    .edit-input {
+      display: block;
+    }
+    .input-options button {
+      padding: 5px;
+    }
+    .input-options select, .input-options button, .input-options {
+      font-size: 14px;
+      margin: 0;
+    }
+    .input-options .check-score {
+      padding: 5px;
+      font-size: 16px;
+    }
+    .input-options.edit-input {
+      margin-top: 15px;
+    }
+
+  }
+
 </style>
