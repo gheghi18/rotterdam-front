@@ -183,20 +183,16 @@
       </div>
 
       <div class="input-options-section">
-        <p><button on:click|preventDefault={onResetValues}>{t("reset_to_average")}</button></p>
-        <p><button on:click|preventDefault={onRandomize}>{t("randomize_values")}</button></p>
-        <!--
         {#each archetypes as a }
           <p>
-            <button on:click|preventDefault={() => onArchetype(a)}>{a.name}</button>
+            <button on:click|preventDefault={() => onArchetype(a)}>Load Sample "{a.name}"</button>
           </p>
         {/each}
-        <!-- <p> -->
-        <!--   <select bind:value={archetype} on:change={onArchetype}> -->
-        <!--     <option value="all">{t("show_all_fields")}</option> -->
-        <!--     <option value="important">{t("show_most_important_fields")}</option> -->
-        <!--   </select> -->
-        <!-- </p> -->
+      </div>
+
+      <div class="input-options-section">
+        <p><button on:click|preventDefault={onResetValues}>{t("reset_to_average")}</button></p>
+        <p><button on:click|preventDefault={onRandomize}>{t("randomize_values")}</button></p>
       </div>
 
       <button class="check-score" disabled={loading} on:click|preventDefault={onSubmit}
